@@ -9,7 +9,7 @@ export function useFetch <T = any>(method: string = 'POST'): IUseFetch<T>{
 
     const fetchData = (url: string) => {
 
-        fetch(url, {
+        return fetch(url, {
             method,
         })
         .then(response => response.json())
@@ -18,7 +18,7 @@ export function useFetch <T = any>(method: string = 'POST'): IUseFetch<T>{
             setLoad(false)
         })
         .catch(err => {
-
+            
             setLoad(false)
         })
 

@@ -1,11 +1,10 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom"
-import { StoreData, UserPayload } from "../interface/Interface"
-import { updateUserData } from "../redux/store/userData"
 import { Loading } from "../components/loading/loading"
-import { useSelector, useDispatch } from "react-redux"
-import { Error } from "../components/error/error"
-import { Suspense, useEffect } from "react"
-import { useFetch } from "../hook/useFetch"
+import { StoreData } from "../interface/Interface"
+import { useSelector } from "react-redux"
+import { lazy, Suspense, } from "react"
+
+const JWT = lazy(() => import('./jwt'))
 
 export const Protected = () => {
 
@@ -19,26 +18,7 @@ export const Protected = () => {
     if(userData.token === null && userData.load) return <Navigate to='/login'/>
 
     return <Suspense fallback={<Loading/>}>
-        <CheckJWT/>
+        <JWT/>
     </Suspense>
-
-}
-
-const CheckJWT = () => {
-
-    const dispatch = useDispatch()
-    const {load, data, error, fetchData} = useFetch<UserPayload>("POST")
-
-    useEffect(() => {
-        fetchData("http//localhost:3000/refrsh")
-    }, [])
-
-    if(load) return <Loading/>
-    
-    if(error) return <Error {...{message: error.message}}/>
-
-    if(data) dispatch(updateUserData(data))
-
-    return <Outlet />
 
 }
