@@ -24,3 +24,4 @@ export const UserDataStore = (state = defaultState, action:IAction<string, UserP
 }
 
 export const updateUserData = (payload: UserPayload) => ({ type: setData, payload });
+export const deleteUserData = (payload: null) => ({ type: deleteData, payload });

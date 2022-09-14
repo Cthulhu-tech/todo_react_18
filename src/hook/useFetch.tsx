@@ -1,5 +1,5 @@
 import { ErrorData, IUseFetch } from "../interface/Interface"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function useFetch <T = any>(method: string = 'POST'): IUseFetch<T>{
 
@@ -8,7 +8,6 @@ export function useFetch <T = any>(method: string = 'POST'): IUseFetch<T>{
     const [error, setError] = useState<ErrorData | null>(null)
 
     const fetchData = (url: string) => {
-
         return fetch(url, {
             method,
         })
@@ -18,10 +17,9 @@ export function useFetch <T = any>(method: string = 'POST'): IUseFetch<T>{
             setLoad(false)
         })
         .catch(err => {
-            
+            setError(err.message)
             setLoad(false)
         })
-
     }
 
     return {load, data, error, fetchData}

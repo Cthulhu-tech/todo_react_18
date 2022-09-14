@@ -1,4 +1,4 @@
-import { updateUserData } from "../redux/store/userData"
+import { deleteUserData, updateUserData } from "../redux/store/userData"
 import { UserPayload } from "../interface/Interface"
 import { Error } from "../components/error/error"
 import { useFetch } from "../hook/useFetch"
@@ -9,18 +9,17 @@ import { useEffect } from "react"
 const JWT = () => {
 
     const dispatch = useDispatch()
-    const {data, error, fetchData} = useFetch<UserPayload>("POST")
+    const {load, data, error, fetchData} = useFetch<UserPayload>("POST")
 
+    useEffect(() => {fetchData("http//localhost:3000/refrsh")}, [])
     useEffect(() => {
-        fetchData("http//localhost:3000/refrsh")
-    }, [])
+        if(data) dispatch(updateUserData(data))
+        else dispatch(deleteUserData(null))
+    },[data, load])
     
     if(error) return <Error {...{message: error.message}}/>
 
-    if(data) dispatch(updateUserData(data))
-
-    return <Outlet />
-
+    return <Outlet/>
 }
 
 export default JWT
