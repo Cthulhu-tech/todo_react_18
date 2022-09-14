@@ -4,7 +4,8 @@ const defaultState:UserPayload = {
 
     id: null,
     user: null,
-    token: null
+    token: null,
+    load: true,
 
 }
 
@@ -16,10 +17,10 @@ export const UserDataStore = (state = defaultState, action:IAction<string, UserP
         case setData: 
             return {...state, ...action.payload}
         case deleteData:
-            return { id: null, user: null, token: null }
+            return { id: null, user: null, token: null, load: false }
         default:
             return state;
     }
 }
 
-export const updateToken = (payload: UserPayload) => ({ type: setData, payload });
+export const updateUserData = (payload: UserPayload) => ({ type: setData, payload });
